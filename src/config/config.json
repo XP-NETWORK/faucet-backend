@@ -1,0 +1,8 @@
+{
+    "port": 6644,
+    "node": "ws://localhost:9944",
+    "faucet_seed": "0x00",
+    "max": 200000000000000000,
+    "min_hrs": 24
+
+}
