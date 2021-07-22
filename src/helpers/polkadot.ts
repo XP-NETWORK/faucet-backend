@@ -1,6 +1,6 @@
 import { ApiPromise, Keyring, WsProvider } from "@polkadot/api";
 import { KeyringPair } from "@polkadot/keyring/types";
-import { AccountId, Address, Hash } from "@polkadot/types/interfaces";
+import { Address, Hash } from "@polkadot/types/interfaces";
 import { RegistryTypes } from "@polkadot/types/types";
 
 export type PolkadotHelper = {
@@ -13,7 +13,7 @@ export async function newHelper(node_uri: string, faucet_seed: string): Promise<
     const api = await ApiPromise.create({ provider: ws,  types: runtimeTypes });
 
     const keyring = new Keyring();
-    const faucet = keyring.addFromSeed(Buffer.from(faucet_seed, 'hex'), undefined, 'sr25519');
+    const faucet = keyring.addFromSeed(Buffer.from(faucet_seed.replace('0x', ''), 'hex'), undefined, 'sr25519');
 
     return {
         api,

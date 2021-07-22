@@ -3,7 +3,7 @@ import { Hash } from "@polkadot/types/interfaces";
 
 @Entity()
 export class TransactionInfo {
-    @Property()
+    @PrimaryKey()
     address!: string;
 
     @Property()
