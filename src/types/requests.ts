@@ -1,4 +1,4 @@
 type FaucetWithdrawReq = {
-    target: string,
-    amount: string
-}
+    target: string;
+    amount: string;
+};

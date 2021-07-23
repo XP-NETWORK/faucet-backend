@@ -1,69 +1,82 @@
-import { ApiPromise, Keyring, WsProvider } from "@polkadot/api";
-import { KeyringPair } from "@polkadot/keyring/types";
-import { Address, Hash } from "@polkadot/types/interfaces";
-import { RegistryTypes } from "@polkadot/types/types";
+import { ApiPromise, Keyring, WsProvider } from '@polkadot/api';
+import { KeyringPair } from '@polkadot/keyring/types';
+import { Address, Hash } from '@polkadot/types/interfaces';
+import { RegistryTypes } from '@polkadot/types/types';
 
 export type PolkadotHelper = {
-    readonly api: ApiPromise,
-    readonly faucet: KeyringPair,
-}
+    readonly api: ApiPromise;
+    readonly faucet: KeyringPair;
+};
 
-export async function newHelper(node_uri: string, faucet_seed: string): Promise<PolkadotHelper> {
+export async function newHelper(
+    node_uri: string,
+    faucet_seed: string
+): Promise<PolkadotHelper> {
     const ws = new WsProvider(node_uri);
-    const api = await ApiPromise.create({ provider: ws,  types: runtimeTypes });
+    const api = await ApiPromise.create({ provider: ws, types: runtimeTypes });
 
     const keyring = new Keyring();
-    const faucet = keyring.addFromSeed(Buffer.from(faucet_seed.replace('0x', ''), 'hex'), undefined, 'sr25519');
+    const faucet = keyring.addFromSeed(
+        Buffer.from(faucet_seed.replace('0x', ''), 'hex'),
+        undefined,
+        'sr25519'
+    );
 
     return {
         api,
         faucet,
-    }
+    };
 }
 
-export async function transfer(helper: PolkadotHelper, target: Address, amount: BigInt): Promise<Hash> {
+export async function transfer(
+    helper: PolkadotHelper,
+    target: Address,
+    amount: BigInt
+): Promise<Hash> {
     return await helper.api.tx.balances
         .transfer(target, amount.toString())
         .signAndSend(helper.faucet);
 }
 
-export async function balanceOf(helper: PolkadotHelper, addr: string): Promise<BigInt> {
-  const res: any = await helper.api.query.system
-    .account(addr);
+export async function balanceOf(
+    helper: PolkadotHelper,
+    addr: string
+): Promise<BigInt> {
+    const res: any = await helper.api.query.system.account(addr);
 
-    return BigInt(res['data']['free'].toString())
+    return BigInt(res['data']['free'].toString());
 }
 
 const runtimeTypes: RegistryTypes = {
-    ActionId: "u128",
-    TokenId: "u128",
-    CommodityId: "H256",
-    CommodityInfo: "Vec<u8>",
-    NftId: "H256",
-    NftInfo: "Vec<u8>",
-    EgldBalance: "Balance",
-    Commodity: "(H256, Vec<u8>)",
+    ActionId: 'u128',
+    TokenId: 'u128',
+    CommodityId: 'H256',
+    CommodityInfo: 'Vec<u8>',
+    NftId: 'H256',
+    NftInfo: 'Vec<u8>',
+    EgldBalance: 'Balance',
+    Commodity: '(H256, Vec<u8>)',
     LocalAction: {
-      _enum: {
-        //@ts-expect-error enum struct
-        Unfreeze: {
-          to: "AccountId",
-          value: "Balance",
+        _enum: {
+            //@ts-expect-error enum struct
+            Unfreeze: {
+                to: 'AccountId',
+                value: 'Balance',
+            },
+            //@ts-expect-error enum struct
+            RpcCall: {
+                contract: 'AccountId',
+                call_data: 'Vec<u8>',
+            },
+            //@ts-expect-error enum struct
+            TransferWrapped: {
+                to: 'AccountId',
+                value: 'Balance',
+            },
         },
-        //@ts-expect-error enum struct
-        RpcCall: {
-          contract: "AccountId",
-          call_data: "Vec<u8>",
-        },
-        //@ts-expect-error enum struct
-        TransferWrapped: {
-          to: "AccountId",
-          value: "Balance",
-        },
-      },
     },
     ActionInfo: {
-      action: "LocalAction",
-      validators: "BTreeSet<AccountId>",
+        action: 'LocalAction',
+        validators: 'BTreeSet<AccountId>',
     },
-  };
+};

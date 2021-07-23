@@ -1,5 +1,5 @@
-import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
-import { Hash } from "@polkadot/types/interfaces";
+import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import { Hash } from '@polkadot/types/interfaces';
 
 @Entity()
 export class TransactionInfo {
