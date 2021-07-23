@@ -27,6 +27,13 @@ export async function transfer(helper: PolkadotHelper, target: Address, amount: 
         .signAndSend(helper.faucet);
 }
 
+export async function balanceOf(helper: PolkadotHelper, addr: string): Promise<BigInt> {
+  const res: any = await helper.api.query.system
+    .account(addr);
+
+    return BigInt(res['data']['free'].toString())
+}
+
 const runtimeTypes: RegistryTypes = {
     ActionId: "u128",
     TokenId: "u128",

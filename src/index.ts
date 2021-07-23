@@ -22,14 +22,20 @@ const main = async () => {
 	app.use(express.json())
 	app.use((req, res, next) => requestDbCtx(orm, req, res, next));
 
+	app.get('/balance', async (_req: Request, res: Response, next: NextFunction) => {
+		try {
+			res.json({ balance: (await Polkadot.balanceOf(polka, polka.faucet.address)).toString() });
+		} catch (e) {
+			return next(new HttpError(500, e.message));
+		}
+	});
+
 	app.post('/transfer', async (req: Request<{}, {}, FaucetWithdrawReq>, res: Response, next: NextFunction) => {
 		let amount: BigInt;
 		let address: GenericMultiAddress;
 		let err: Error | undefined;
-		console.log(req.body);
 		try {
 			amount = BigInt(req.body.amount);
-			console.log(amount);
 			if (amount > BigInt(config.max)) {
 				throw Error()
 			}
@@ -73,7 +79,7 @@ const main = async () => {
 		})
 
 		res.json(txs);
-	})
+	});
 
 	app.use(errorMiddleware);
 	app.listen(config.port, () => console.log(`Express Server is up @ ${config.port}`))
