@@ -22,7 +22,7 @@ Use the faucet to add XPNET tokens to a test account.
    ```bash
    sqlite3 faucet-db
    ```
-   
+
 4. To switch off the foreign keys
 
    ```sql
@@ -55,6 +55,11 @@ Use the faucet to add XPNET tokens to a test account.
 
 Before starting the project, make sure you have access to a running substrate node or you are connected to the XP.network live testnet.
 
+If you have a pre-built binary of our node(for example called "node-template"), you could test it like so:
+```bash
+./node-template --dev --tmp
+```
+
 ### `git pull`
 To be sure, you're using the latest version of the project.
 
@@ -72,6 +77,13 @@ $ tsc -p tsconfig.json
 Done in 2.63s.
 ```
 
-### `node dist/index.js`
-To run the project.
+### `yarn start`
+To run the project. NB: make sure, you're connected to a substrate node or our testnet!
 
+Wait for the success messages like below:
+```bash
+yarn run v1.22.10
+$ node dist/index.js
+2021-07-25 13:22:31        METADATA: Unknown types found, no types for RawScriptData
+Express Server is up @ 6644
+```

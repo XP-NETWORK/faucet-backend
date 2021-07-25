@@ -5,7 +5,8 @@
   "author": "rupansh <rupanshsekar@hotmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "tsc -p tsconfig.json"
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js"
   },
   "dependencies": {
     "@mikro-orm/core": "^4.5.7",
