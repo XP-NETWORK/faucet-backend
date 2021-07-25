@@ -8,43 +8,46 @@ Use the faucet to add XPNET tokens to a test account.
 
 ## Running for the first time
 
-### `sudo apt-get install sqlite3 libsqlite3-dev`
-To install SQLite version 3 if you don't have one. Skip this step if you already have it installed.
+1. To install SQLite version 3 if you don't have one. Skip this step if you already have it installed.
+   ```bash
+    sudo apt-get install sqlite3 libsqlite3-dev
+   ```
+2. To create an SQL database binary
 
-### `touch faucet-db`
-To create an SQL database binary
-Run the following command in the terminal:
+   ```bash
+   touch faucet-db
+   ```
 
-1. To launch SQLite CLI:
-```bash
-sqlite3 faucet-db
-```
-2. To switch off the foreign keys
+3. To launch SQLite CLI:
+   ```bash
+   sqlite3 faucet-db
+   ```
+   
+4. To switch off the foreign keys
 
-```sql
-pragma foreign_keys = off;
-```
-3. To create the new table schema:
+   ```sql
+   pragma foreign_keys = off;
+   ```
+5. To create the new table schema:
 
-
-```sql
-create table `transaction_info` (
-    `address` varchar not null, 
-    `value` varchar not null, 
-    `tx` varchar not null, 
-    `timestamp` integer not null,
-    primary key (`address`));
-```
+   ```sql
+   create table `transaction_info` (
+       `address` varchar not null, 
+       `value` varchar not null, 
+       `tx` varchar not null, 
+       `timestamp` integer not null,
+       primary key (`address`));
+   ```
 4. To turn on the foreign keys
 
-```sql
-pragma foreign_keys = on;
-```
+   ```sql
+   pragma foreign_keys = on;
+   ```
 
 5. To quit SQL CLI & return to the terminal
-```terminal
-Ctrl + d
-```
+   ```terminal
+   Ctrl + d
+   ```
 
 
 
