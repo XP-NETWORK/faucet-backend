@@ -3,3 +3,4 @@ dist
 tsconfig.tsbuildinfo
 temp/
 faucet-db
+yarn-error.log
